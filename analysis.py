@@ -1,63 +1,63 @@
 import random
 
-def analyse(symbol="BTC"):
 
-    rsi=random.randint(20,80)
+def analyse(symbol="BTC", price=0):
 
-    macd=random.choice(["bullish","bearish"])
+    rsi = random.randint(30, 70)
+    momentum = random.randint(-5, 5)
+    volatility = random.randint(3, 10)
 
-    sentiment=random.choice(["haussier","neutre","baissier"])
+    support = price * 0.97
+    resistance = price * 1.03
 
-    score=rsi
+    trend = "Marché neutre"
 
-    if macd=="bullish":
-        score+=10
-    else:
-        score-=10
+    if rsi > 60 and momentum > 1:
+        trend = "🟢 Tendance haussière"
+
+    if rsi < 40:
+        trend = "🔴 Risque de baisse"
 
     return f"""
-📊 Analyse marché
+📊 ANALYSE {symbol}
 
-Crypto : {symbol}
+Prix actuel
+{price:.2f} $
+
+━━━━━━━━━━━━━━
+
+STRUCTURE MARCHÉ
+
+Support majeur : {support:.2f} $
+Résistance majeure : {resistance:.2f} $
+
+━━━━━━━━━━━━━━
+
+INDICATEURS
 
 RSI : {rsi}
-MACD : {macd}
-Sentiment : {sentiment}
+Momentum : {momentum}
+Volatilité : {volatility} %
 
-Score marché : {score}/100
-"""
+━━━━━━━━━━━━━━
 
+TENDANCE
 
-def multi_indicators(symbol="BTC"):
+{trend}
 
-    rsi=random.randint(20,80)
+━━━━━━━━━━━━━━
 
-    macd=random.choice(["bullish","bearish"])
+SCÉNARIO POSSIBLE
 
-    volume=random.choice(["élevé","moyen","faible"])
+Le prix pourrait tester
+la zone de résistance
+si le momentum continue.
 
-    trend=random.choice(["haussier","baissier","neutre"])
+━━━━━━━━━━━━━━
 
-    return f"""
-📊 Analyse avancée
+GUIDE
 
-Crypto : {symbol}
-
-RSI : {rsi}
-MACD : {macd}
-Volume : {volume}
-Trend : {trend}
-"""
-
-
-def trade_score():
-
-    probability=random.randint(50,95)
-
-    return f"""
-🤖 Score IA du trade
-
-Probabilité de réussite :
-
-{probability} %
+Surveiller un retour
+vers la zone de support
+avant toute entrée.
 """
