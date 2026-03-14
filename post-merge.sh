@@ -1,4 +1,9 @@
 #!/bin/bash
+
 set -e
 
-echo "Post-merge setup: no additional steps needed for this project."
+echo "--------------------------------------"
+echo "Post-merge hook executed"
+echo "Project updated successfully."
+echo "No additional setup required."
+echo "--------------------------------------"
