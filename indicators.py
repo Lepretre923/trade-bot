@@ -1,35 +1,38 @@
-def calculate_rsi(prices,period=14):
+def calculate_rsi(prices, period=14):
 
-    gains=[]
-    losses=[]
+    if len(prices) <= period:
+        return None
 
-    for i in range(1,len(prices)):
+    gains = []
+    losses = []
 
-        diff=prices[i]-prices[i-1]
+    for i in range(1, len(prices)):
 
-        if diff>0:
+        diff = prices[i] - prices[i-1]
+
+        if diff > 0:
             gains.append(diff)
             losses.append(0)
-
         else:
             gains.append(0)
             losses.append(abs(diff))
 
-    avg_gain=sum(gains[-period:])/period
-    avg_loss=sum(losses[-period:])/period
+    avg_gain = sum(gains[-period:]) / period
+    avg_loss = sum(losses[-period:]) / period
 
-    if avg_loss==0:
+    if avg_loss == 0:
         return 100
 
-    rs=avg_gain/avg_loss
+    rs = avg_gain / avg_loss
 
-    rsi=100-(100/(1+rs))
+    rsi = 100 - (100 / (1 + rs))
 
-    return round(rsi,2)
+    return round(rsi, 2)
 
-def moving_average(prices,period):
 
-    if len(prices)<period:
+def moving_average(prices, period):
+
+    if len(prices) < period:
         return None
 
-    return sum(prices[-period:])/period
+    return round(sum(prices[-period:]) / period, 2)
