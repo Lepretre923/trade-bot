@@ -1,16 +1,15 @@
 import random
 from market_data import crypto_price, metal_price, get_history_tf
 
-SCAN_ASSETS = [
+SEP="━━━━━━━━━━━━━━"
+
+SCAN_ASSETS=[
     "BTC","ETH","SOL","BNB","XRP",
     "ADA","DOGE","AVAX","MATIC"
 ]
 
-SEP="━━━━━━━━━━━━━━"
-
-
 # ------------------------------------------------
-# SCANNER OPPORTUNITÉS GLOBAL
+# SCANNER OPPORTUNITÉS
 # ------------------------------------------------
 
 def market_opportunity_scanner():
@@ -19,7 +18,7 @@ def market_opportunity_scanner():
 
     for asset in SCAN_ASSETS:
 
-        price=crypto_price(asset) or 0
+        price=crypto_price(asset)
 
         rsi=random.randint(30,70)
         momentum=random.randint(-5,5)
@@ -54,142 +53,100 @@ Score : {score}/100
 
 
 # ------------------------------------------------
-# FLUX STABLECOINS
+# SCORE GLOBAL MARCHÉ
 # ------------------------------------------------
 
-def stablecoin_flow():
+def market_direction_score():
 
-    inflow=random.randint(100,900)
-    outflow=random.randint(100,900)
+    btc=crypto_price("BTC")
+    eth=crypto_price("ETH")
+    sol=crypto_price("SOL")
 
-    net=inflow-outflow
+    btc_m=random.randint(-5,5)
+    eth_m=random.randint(-5,5)
+    sol_m=random.randint(-5,5)
 
-    situation="Neutre"
+    score=50+(btc_m+eth_m+sol_m)*3
 
-    if net>200:
-        situation="🟢 Entrée de capitaux"
+    if score>100:
+        score=100
+    if score<0:
+        score=0
 
-    elif net<-200:
-        situation="🔴 Sortie de capitaux"
+    direction="Marché neutre"
 
-    sign="+" if net>=0 else ""
+    if score>65:
+        direction="🟢 Marché haussier"
+
+    if score<40:
+        direction="🔴 Marché baissier"
 
     return f"""
-💵 STABLECOIN FLOW
+📊 SCORE GLOBAL MARCHÉ
 
-Entrées
-{inflow} M$
+BTC : {btc:.0f}$
+ETH : {eth:.0f}$
+SOL : {sol:.0f}$
 
-Sorties
-{outflow} M$
+Score global
+{score}/100
 
-Flux net
-{sign}{net} M$
+Direction
+{direction}
 
-Situation
-{situation}
+Guide
+Comparer momentum
+et sentiment global
+avant toute position.
 """
 
 
 # ------------------------------------------------
-# VOLUME PROFILE
+# SMART MONEY RADAR
 # ------------------------------------------------
 
-def volume_profile():
+def smart_money_radar():
 
-    asset=random.choice(["BTC","ETH"])
+    asset=random.choice(["BTC","ETH","SOL"])
 
-    price=crypto_price(asset) or 0
+    price=crypto_price(asset)
 
-    poc=price*0.99
-    high_volume=price*1.01
-    low_volume=price*0.97
+    liquidity_high=price*1.03
+    liquidity_low=price*0.97
 
-    activity=random.randint(40,90)
+    pattern=random.choice([
+        "Possible stop hunt",
+        "Possible fake breakout",
+        "Accumulation institutionnelle",
+        "Distribution institutionnelle"
+    ])
 
-    situation="Volume équilibré"
-
-    if activity>70:
-        situation="📈 Forte activité marché"
-
-    elif activity<50:
-        situation="📉 Faible activité"
+    probability=random.randint(30,90)
 
     return f"""
-📊 VOLUME PROFILE
-
-{asset}
-
-Prix
-{price:.0f}
-
-Point of Control
-{poc:.0f}
-
-High Volume Zone
-{high_volume:.0f}
-
-Low Volume Zone
-{low_volume:.0f}
-
-Activité marché
-{activity}
-
-Situation
-{situation}
-"""
-
-
-# ------------------------------------------------
-# LIQUIDATION MAP
-# ------------------------------------------------
-
-def liquidation_map():
-
-    asset=random.choice(["BTC","ETH"])
-
-    price=crypto_price(asset) or 0
-
-    long_liq=price*0.95
-    short_liq=price*1.05
-
-    risk=random.randint(30,90)
-
-    situation="Neutre"
-
-    if risk>70:
-        situation="⚠️ Forte zone liquidation"
-
-    elif risk<40:
-        situation="🟢 Faible pression liquidation"
-
-    return f"""
-🔥 CARTE LIQUIDATIONS
+🧠 SMART MONEY RADAR
 
 Actif
 {asset}
 
-Prix actuel
+Prix
 {price:.0f}$
 
-{SEP}
+Liquidité haute
+{liquidity_high:.0f}$
 
-Zone liquidation LONG
-{long_liq:.0f}$
+Liquidité basse
+{liquidity_low:.0f}$
 
-Zone liquidation SHORT
-{short_liq:.0f}$
+Pattern détecté
+{pattern}
 
-{SEP}
+Probabilité
+{probability} %
 
-Score risque
-{risk}/100
-
-Situation
-{situation}
-
-{SEP}
-
-Analyse
-Les zones de liquidation attirent souvent le prix.
+Guide
+Le marché cherche
+souvent les zones
+de liquidité avant
+un mouvement fort.
 """
